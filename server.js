@@ -40,7 +40,7 @@ const seedData = async()=>{
 
 seedData()
 
-//app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use('/dist',express.static('dist'))
 app.use('/assets',express.static('assets'))
@@ -121,14 +121,16 @@ app.delete('/api/things/:id',async(req,res,next)=>{
     }
 })
 
-// app.post('/api/things/:id',async(req,res,next)=>{
-//     try{
-//       await Thing.update({userId:req.body.name*1},{where:{id:req.params.id}})
-//       res.send()
-//     }catch(err){
-//         next(err)
-//     }
-// })
+app.post('/api/things/:id',async(req,res,next)=>{
+    try{
+        console.log("@@@@@@req.body")
+        console.log(req.body)
+      await Thing.update({userId:req.body.id},{where:{id:req.params.id}})
+      res.send()
+    }catch(err){
+        next(err)
+    }
+})
 
 
 

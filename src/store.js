@@ -34,9 +34,9 @@ const store = createStore((state = initialState, action)=>{
   if(action.type === 'RANKING_DOWN'){
     return {...state,things:action.things}
   }
-//   if(action.type === 'CHANGE_OWNER'){
-//     return {...state,things:action.things}
-//   }
+  if(action.type === 'CHANGE_OWNER'){
+    return {...state,things:action.things}
+  }
 
   return state
 })

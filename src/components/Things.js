@@ -23,9 +23,15 @@ const Things = ({things,deleteThing,rankingUp,rankingDown,changeOwner})=>{
                   <button onClick={()=>rankingDown(thing)}>-</button>
                   </div>
                   <div>
-                    owner:{thing.userId}
+                    ownerId:{thing.userId}
                   </div>
-                  
+                  <div>
+                     <form>
+                     <label>changOwner</label>
+                     <input name ='id'/>
+                     <button onClick={ ()=>changeOwner(thing) }>submit</button>
+                     </form>
+                   </div>
                 </li>
               )
             })
@@ -52,11 +58,11 @@ const mapDispatchToProps = (dispatch)=>{
       const response = await axios.get('/api/things')
       dispatch({type:'RANKING_DOWN',things:response.data})
     },
-    // changeOwner:async(thing)=>{
-    //   await axios.post(`/api/things/${thing.id}`)
-    //   const response = await axios.get('/api/things')
-    //   dispatch({type:'CHANGE_OWNER',things:response.data})
-    // }
+    changeOwner:async(thing)=>{
+      await axios.post(`/api/things/${thing.id}`)
+      const response = await axios.get('/api/things')
+      dispatch({type:'CHANGE_OWNER',things:response.data})
+    }
   }
 }
 
@@ -67,8 +73,3 @@ const mapStateToProps = (state)=>{
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Things)
 
- //<div>
-//                     <label>changOwner</label>
-//                     <input name ='id'/>
-//                     <button onClick={ changeOwner(thing) }>submit</button>
-//                   </div>
