@@ -1,0 +1,21 @@
+nav{
+    display: flex;
+    justify-content: space-around;
+}
+
+nav a.selected{
+    background-color: brown;
+}
+
+h1{
+    font-family: Verdana;
+}
+
+nav{
+    margin-top: 2rem;
+}
+.thing{
+    display: flex;
+    justify-content: space-around
+}
+
