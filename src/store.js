@@ -1,4 +1,4 @@
-import axios from 'axios'
+
 import { legacy_createStore as createStore } from 'redux'
 
 const initialState = {
@@ -34,6 +34,9 @@ const store = createStore((state = initialState, action)=>{
   if(action.type === 'RANKING_DOWN'){
     return {...state,things:action.things}
   }
+//   if(action.type === 'CHANGE_OWNER'){
+//     return {...state,things:action.things}
+//   }
 
   return state
 })

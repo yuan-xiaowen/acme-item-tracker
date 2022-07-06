@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import ThingButton from './ThingButton'
 
-const Things = ({things,deleteThing,rankingUp,rankingDown})=>{
+const Things = ({things,deleteThing,rankingUp,rankingDown,changeOwner})=>{
     console.log(things)
   return (
     <div>
@@ -25,6 +25,7 @@ const Things = ({things,deleteThing,rankingUp,rankingDown})=>{
                   <div>
                     owner:{thing.userId}
                   </div>
+                  
                 </li>
               )
             })
@@ -50,7 +51,12 @@ const mapDispatchToProps = (dispatch)=>{
       await axios.get(`/api/things/rankingdown/${thing.id}`)
       const response = await axios.get('/api/things')
       dispatch({type:'RANKING_DOWN',things:response.data})
-    }
+    },
+    // changeOwner:async(thing)=>{
+    //   await axios.post(`/api/things/${thing.id}`)
+    //   const response = await axios.get('/api/things')
+    //   dispatch({type:'CHANGE_OWNER',things:response.data})
+    // }
   }
 }
 
@@ -60,3 +66,9 @@ const mapStateToProps = (state)=>{
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Things)
+
+ //<div>
+//                     <label>changOwner</label>
+//                     <input name ='id'/>
+//                     <button onClick={ changeOwner(thing) }>submit</button>
+//                   </div>

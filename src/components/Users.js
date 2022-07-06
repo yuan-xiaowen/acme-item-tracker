@@ -4,7 +4,7 @@ import UserButton from './UserButton'
 import axios from 'axios'
 
 
-const Users = ({users,deleteUser})=>{
+const Users = ({users,deleteUser,things})=>{
     console.log("########")
     console.log(users)
     console.log(deleteUser)

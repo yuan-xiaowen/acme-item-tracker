@@ -3,8 +3,7 @@ const app = express()
 const Sequelize = require('sequelize')
 const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme_item_tracker_db')
 const path = require('path')
-const { BelongsTo } = require('sequelize')
-const { ENUM } = require('sequelize')
+
 
 const User = db.define('user',{
     name:{
@@ -41,6 +40,7 @@ const seedData = async()=>{
 
 seedData()
 
+//app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use('/dist',express.static('dist'))
 app.use('/assets',express.static('assets'))
@@ -63,11 +63,15 @@ app.post('/api/users',async(req,res,next)=>{
 
 app.get('/api/things',async(req,res,next)=>{
     try{
-      res.send(await Thing.findAll())
-    }catch(err){
-        next(err)
-    }
-})
+        res.send(await Thing.findAll({
+          order:[
+              ['id', 'ASC'],
+          ]
+        }))
+      }catch(err){
+          next(err)
+      }
+  })
 
 app.get('/api/things/rankingup/:id',async(req,res,next)=>{
     try{
@@ -116,6 +120,16 @@ app.delete('/api/things/:id',async(req,res,next)=>{
         next(err)
     }
 })
+
+// app.post('/api/things/:id',async(req,res,next)=>{
+//     try{
+//       await Thing.update({userId:req.body.name*1},{where:{id:req.params.id}})
+//       res.send()
+//     }catch(err){
+//         next(err)
+//     }
+// })
+
 
 
 app.get('/',(req,res,next)=>{
