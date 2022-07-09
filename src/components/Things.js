@@ -3,8 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import ThingButton from './ThingButton'
 
-const Things = ({things,deleteThing,rankingUp,rankingDown,changeOwner})=>{
-    console.log(things)
+const Things = ({things,deleteThing,rankingUp,rankingDown,users,changeOwner})=>{
   return (
     <div>
         <h1>Things Page({things.length})</h1>
@@ -23,14 +22,21 @@ const Things = ({things,deleteThing,rankingUp,rankingDown,changeOwner})=>{
                   <button onClick={()=>rankingDown(thing)}>-</button>
                   </div>
                   <div>
-                    ownerId:{thing.userId}
+                    owner:{
+                      users.map(user=>user.id===thing.userId?user.name:'')
+                    }
                   </div>
                   <div>
-                     <form>
-                     <label>changOwner</label>
-                     <input name ='id'/>
-                     <button onClick={ ()=>changeOwner(thing) }>submit</button>
-                     </form>
+                  <select  onChange={(ev)=>changeOwner(thing,ev.target.value)}>
+                    <option value='0'>choose</option>
+                    {
+                      users.map((user)=>{
+                        return(
+                          <option key={user.id} value={user.id}>{user.name}</option>
+                        )
+                      })
+                    }
+                   </select>
                    </div>
                 </li>
               )
@@ -58,8 +64,12 @@ const mapDispatchToProps = (dispatch)=>{
       const response = await axios.get('/api/things')
       dispatch({type:'RANKING_DOWN',things:response.data})
     },
-    changeOwner:async(thing)=>{
-      await axios.post(`/api/things/${thing.id}`)
+    changeOwner:async(thing,id)=>{
+      if (id*1===0){
+        return
+      }
+      thing = {...thing,userId:id*1}
+      await axios.post(`/api/things/${thing.id}`,thing)
       const response = await axios.get('/api/things')
       dispatch({type:'CHANGE_OWNER',things:response.data})
     }
@@ -68,7 +78,8 @@ const mapDispatchToProps = (dispatch)=>{
 
 const mapStateToProps = (state)=>{
     return {
-        things:state.things
+        things:state.things,
+        users:state.users
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Things)

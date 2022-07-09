@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const Nav = (view,users,things)=>{
+const Nav = (view)=>{
   return (
     <div>
     <nav>
@@ -13,9 +13,8 @@ const Nav = (view,users,things)=>{
   )
 }
 
-const mapStateToProps = state => {
-  console.log(state)
-    return state;
-  };
+const mapStateToProps = (state) => {
+    return state.view
+  }
   
-export default connect(mapStateToProps)(Nav);
+export default connect(mapStateToProps)(Nav)

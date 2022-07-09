@@ -5,9 +5,7 @@ import axios from 'axios'
 
 
 const Users = ({users,deleteUser,things})=>{
-    console.log("########")
-    console.log(users)
-    console.log(deleteUser)
+
   return (
     <div>
         <h1>Users Page({users.length})</h1>
@@ -17,6 +15,9 @@ const Users = ({users,deleteUser,things})=>{
                 return(
                 <li key={user.id}>
                     {user.name}
+                       {
+                        things.map( thing =>{thing.userId===user.id ? 'owns:'+thing.name:''})
+                       }     
                     <button onClick={ ()=>deleteUser(user) }>x</button>
                     </li>
                 )
@@ -31,17 +32,16 @@ const Users = ({users,deleteUser,things})=>{
 const mapDispatchToProps = (dispatch)=> {
     return {
       deleteUser: async(user)=> {
-        console.log('$$$$$$')
-        console.log(user)
-        await axios.delete(`/api/users/${user.id}`);
-        dispatch({ type: 'DELETE_USER', user });
+        await axios.delete(`/api/users/${user.id}`)
+        dispatch({ type: 'DELETE_USER', user })
       }
     };
   }
 
 const mapStateToProps = (state)=>{
     return {
-        users:state.users
+        users:state.users,
+        things:state.things
     }
 }
 

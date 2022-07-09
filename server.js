@@ -18,7 +18,7 @@ const Thing = db.define('thing',{
     ranking:{
         type:Sequelize.INTEGER,
         defaultValue:1
-    },
+    }
 })
 
 Thing.belongsTo(User)
@@ -40,14 +40,15 @@ const seedData = async()=>{
 
 seedData()
 
-app.use(express.urlencoded({extended:false}))
+
+//app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use('/dist',express.static('dist'))
 app.use('/assets',express.static('assets'))
 
 app.get('/api/users',async(req,res,next)=>{
     try{
-      res.send(await User.findAll())
+      res.send(await User.findAll({include:[Thing]}))
     }catch(err){
         next(err)
     }
@@ -121,11 +122,10 @@ app.delete('/api/things/:id',async(req,res,next)=>{
     }
 })
 
+
 app.post('/api/things/:id',async(req,res,next)=>{
     try{
-        console.log("@@@@@@req.body")
-        console.log(req.body)
-      await Thing.update({userId:req.body.id},{where:{id:req.params.id}})
+      await Thing.update({userId:req.body.userId},{where:{id:req.params.id}})
       res.send()
     }catch(err){
         next(err)

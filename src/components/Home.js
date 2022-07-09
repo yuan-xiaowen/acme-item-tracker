@@ -2,17 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const Home = ({users,things})=>{
-  console.log('@@@@@@@@@')
-  console.log(things)
   let highRanking = -100
-  let highName = 'hhhhhhh'
-  //let highId = 0
-  for(let i = 0;i<things.length;i++){
-    console.log(things[i].ranking)
+  const topRanked = []
+  for(let i = 0;i < things.length;i++){
     if(things[i].ranking>highRanking){
       highRanking = things[i].ranking
-      highName = things[i].name
-     // highId = things[i].id
+    }
+  }
+  for(let i = 0;i < things.length;i++){
+    if(things[i].ranking===highRanking){
+      topRanked.push(things[i].name)
     }
   }
   return (
@@ -20,8 +19,19 @@ const Home = ({users,things})=>{
         <h1>Home Page</h1>
         <p>
             Acme Item Tracker has {users.length} users and {things.length} things.
-            The Highest Ranking is { highName }
         </p>
+        <h2> Top Ranked</h2>
+          <ul>
+            {
+              topRanked.map((element)=>{
+                return(
+                  <li key={element}>
+                    {element}
+                  </li>
+                )
+              })
+            }
+          </ul>
     </div>
   )
 }
